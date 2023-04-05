@@ -12,33 +12,6 @@ input {
     font-size: 20px;
 }
 
-form {
-    display: flex;
-    flex-direction: column; /* главная ось вертикально */
-}
-
-.btn {
-    align-self: flex-end; /* по кравому краю */
-    margin-top: 15px;
-    padding: 10px 15px;
-    background: white;
-    color: teal;
-    border: 2px solid teal;
-}
-
 .app {
     padding: 20px;
-}
-
-.post {
-    border: 2px solid teal;
-    padding: 15px;
-    margin-top: 15px;
-}
-
-.input {
-    width: 100%;
-    padding: 10px 15px;
-    margin-top: 15px;
-    border: 2px solid teal;
 }
