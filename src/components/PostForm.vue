@@ -1,11 +1,6 @@
 <script>
-import MyBtn from '@/components/common/MyBtn.vue'
-
 export default {
     name: 'PostForm',
-    components: {
-        MyBtn,
-    },
     data() {
         return {
             post: {

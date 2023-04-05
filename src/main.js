@@ -1,5 +1,12 @@
 import { createApp } from 'vue'
 import '@/style.css'
 import App from '@/App.vue'
+import commons from '@/components/common'
 
-createApp(App).mount('#app')
+const app = createApp(App)
+
+commons.forEach((component) => {
+    app.component(component.name, component)
+})
+
+app.mount('#app')

@@ -1,4 +1,8 @@
-<script></script>
+<script>
+export default {
+    name: 'MyBtn',
+}
+</script>
 
 <template>
     <button class="btn">
