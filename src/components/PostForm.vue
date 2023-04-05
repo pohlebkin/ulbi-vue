@@ -1,6 +1,11 @@
 <script>
+import MyBtn from '@/components/common/MyBtn.vue'
+
 export default {
     name: 'PostForm',
+    components: {
+        MyBtn,
+    },
     data() {
         return {
             post: {
@@ -39,7 +44,9 @@ export default {
             type="text"
             placeholder="описание"
         />
-        <button class="btn" @click="creatrePost">добавить</button>
+        <MyBtn style="align-self: flex-end" class="btn" @click="creatrePost"
+            >добавить</MyBtn
+        >
     </form>
 </template>
 
@@ -53,15 +60,6 @@ form {
     width: 100%;
     padding: 10px 15px;
     margin-top: 15px;
-    border: 2px solid teal;
-}
-
-.btn {
-    align-self: flex-end; /* по кравому краю */
-    margin-top: 15px;
-    padding: 10px 15px;
-    background: white;
-    color: teal;
     border: 2px solid teal;
 }
 </style>

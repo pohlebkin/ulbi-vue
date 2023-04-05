@@ -1,6 +1,11 @@
 <script>
+import MyBtn from '@/components/common/MyBtn.vue'
+
 export default {
     name: 'PostItem',
+    components: {
+        MyBtn,
+    },
     props: {
         post: {
             type: Object,
@@ -13,8 +18,13 @@ export default {
 <template>
     <div>
         <div class="post">
-            <div><b>название</b> {{ post.title }}</div>
-            <div><b>описание</b> {{ post.body }}</div>
+            <div>
+                <div><b>название</b> {{ post.title }}</div>
+                <div><b>описание</b> {{ post.body }}</div>
+            </div>
+            <div class="post__btns">
+                <MyBtn class="btn">удалить</MyBtn>
+            </div>
         </div>
     </div>
 </template>
@@ -24,5 +34,8 @@ export default {
     border: 2px solid teal;
     padding: 15px;
     margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 </style>
