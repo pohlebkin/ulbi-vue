@@ -1,6 +1,7 @@
 <script>
 import PostForm from '@/components/PostForm.vue'
 import PostList from '@/components/PostList.vue'
+import axios from 'axios'
 
 export default {
     name: 'App',
@@ -10,12 +11,11 @@ export default {
     },
     data() {
         return {
-            posts: [
-                { id: 1, title: 'title1', body: 'body1' },
-                { id: 2, title: 'title2', body: 'body2' },
-                { id: 3, title: 'title3', body: 'body3' },
-            ],
+            posts: [],
             modalShow: false,
+
+            // true если в процессе загрузки постов
+            processLoadingPost: false,
         }
     },
     methods: {
@@ -29,6 +29,23 @@ export default {
         showModal() {
             this.modalShow = true
         },
+        async fetchPosts() {
+            try {
+                this.processLoadingPost = true
+                const response = await axios.get(
+                    'https://jsonplaceholder.typicode.com/posts?_limit=10'
+                )
+                console.log(response)
+                this.posts = response.data
+            } catch (e) {
+                console.log(e)
+            } finally {
+                this.processLoadingPost = false
+            }
+        },
+    },
+    mounted() {
+        this.fetchPosts()
     },
 }
 </script>
@@ -41,6 +58,11 @@ export default {
         <MyModal v-model:show="modalShow">
             <PostForm @create="createPost" />
         </MyModal>
-        <PostList @remove="removePost" :posts="posts" />
+        <div v-if="processLoadingPost">идет загрузка постов с бека...</div>
+        <PostList
+            v-if="!processLoadingPost"
+            @remove="removePost"
+            :posts="posts"
+        />
     </div>
 </template>
