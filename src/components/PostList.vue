@@ -18,6 +18,11 @@ export default {
 <template>
     <div>
         <h2>посты</h2>
-        <PostItem :post="post" v-for="post in posts" />
+        <PostItem
+            @remove="$emit('remove', post)"
+            :key="post.id"
+            :post="post"
+            v-for="post in posts"
+        />
     </div>
 </template>

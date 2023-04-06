@@ -18,7 +18,9 @@ export default {
                 <div><b>описание</b> {{ post.body }}</div>
             </div>
             <div class="post__btns">
-                <MyBtn class="btn">удалить</MyBtn>
+                <MyBtn class="btn" @click="$emit('remove', post)"
+                    >удалить</MyBtn
+                >
             </div>
         </div>
     </div>
