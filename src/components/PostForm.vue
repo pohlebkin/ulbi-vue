@@ -27,18 +27,8 @@ export default {
 <template>
     <form @submit.prevent>
         <h4>создание поста</h4>
-        <input
-            v-model="post.title"
-            class="input"
-            type="text"
-            placeholder="название"
-        />
-        <input
-            v-model="post.body"
-            class="input"
-            type="text"
-            placeholder="описание"
-        />
+        <MyInput v-model="post.title" placeholder="название" />
+        <MyInput v-model="post.body" placeholder="описание" />
         <MyBtn style="align-self: flex-end" class="btn" @click="creatrePost"
             >добавить</MyBtn
         >
@@ -49,12 +39,5 @@ export default {
 form {
     display: flex;
     flex-direction: column; /* главная ось вертикально */
-}
-
-.input {
-    width: 100%;
-    padding: 10px 15px;
-    margin-top: 15px;
-    border: 2px solid teal;
 }
 </style>
