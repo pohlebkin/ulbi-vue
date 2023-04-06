@@ -16,7 +16,7 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div v-if="posts.length > 0">
         <h2>посты</h2>
         <PostItem
             @remove="$emit('remove', post)"
@@ -25,4 +25,5 @@ export default {
             v-for="post in posts"
         />
     </div>
+    <h2 v-else style="color: red">постов нет</h2>
 </template>
