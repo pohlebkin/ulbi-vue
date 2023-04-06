@@ -15,14 +15,19 @@ export default {
                 { id: 2, title: 'title2', body: 'body2' },
                 { id: 3, title: 'title3', body: 'body3' },
             ],
+            modalShow: false,
         }
     },
     methods: {
         createPost(post) {
             this.posts.push(post)
+            this.modalShow = false
         },
         removePost(post) {
             this.posts = this.posts.filter((p) => p.id !== post.id)
+        },
+        showModal() {
+            this.modalShow = true
         },
     },
 }
@@ -30,8 +35,12 @@ export default {
 
 <template>
     <div class="app">
-        <h1>посты</h1>
-        <PostForm @create="createPost" />
+        <MyBtn @click="showModal"
+            >добавить пост (показать модальное окно)</MyBtn
+        >
+        <MyModal v-model:show="modalShow">
+            <PostForm @create="createPost" />
+        </MyModal>
         <PostList @remove="removePost" :posts="posts" />
     </div>
 </template>

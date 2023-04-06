@@ -1,7 +1,8 @@
 import MyBtn from '@/components/common/MyBtn.vue'
 import MyInput from '@/components/common/MyInput.vue'
+import MyModal from '@/components/common/MyModal.vue'
 
-export default [MyBtn, MyInput]
+export default [MyBtn, MyInput, MyModal]
 
 /*
 код ниже был сгенерирован копилотом
