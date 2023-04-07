@@ -21,6 +21,8 @@ export default {
                 { name: 'по названию', value: 'title' },
                 { name: 'по описанию', value: 'body' },
             ],
+
+            searchQuery: '', // поисковй запрос
         }
     },
     methods: {
@@ -63,12 +65,22 @@ export default {
             }
             return this.posts
         },
+        // одно компьютед свойство зависит от другого
+        // одно компьютед свойство использует другое компьютед свойство
+        sortedAndSearchPosts() {
+            return this.sortedPosts.filter((post) =>
+                post.title
+                    .toLowerCase()
+                    .includes(this.searchQuery.toLowerCase())
+            )
+        },
     },
 }
 </script>
 
 <template>
     <div class="app">
+        <MyInput v-model="searchQuery" placeholder="поиск..." />
         <div class="app__btns">
             <MyBtn @click="showModal"
                 >добавить пост (показать модальное окно)</MyBtn
@@ -82,7 +94,7 @@ export default {
         <PostList
             v-if="!processLoadingPost"
             @remove="removePost"
-            :posts="sortedPosts"
+            :posts="sortedAndSearchPosts"
         />
     </div>
 </template>
