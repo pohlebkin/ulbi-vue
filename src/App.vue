@@ -52,19 +52,16 @@ export default {
     mounted() {
         this.fetchPosts()
     },
-    watch: {
-        // функция, которая будет вызываться при изменении selectedSort
-        // одноименная с наблюдаемым свойством
-        // параметр newValue - новое значение
-        // параметр oldValue - старое значение
-        selectedSort(newValue) {
-            // сортируем посты
-            // post1, post2 - элементы массива postsкоторые будут сравниваться
-            // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-            this.posts.sort((post1, post2) => {
-                // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
-                return post1[newValue].localeCompare(post2[newValue])
-            })
+    computed: {
+        sortedPosts() {
+            if (this.selectedSort) {
+                return [...this.posts].sort((post1, post2) =>
+                    post1[this.selectedSort].localeCompare(
+                        post2[this.selectedSort]
+                    )
+                )
+            }
+            return this.posts
         },
     },
 }
@@ -85,7 +82,7 @@ export default {
         <PostList
             v-if="!processLoadingPost"
             @remove="removePost"
-            :posts="posts"
+            :posts="sortedPosts"
         />
     </div>
 </template>
