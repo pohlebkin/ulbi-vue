@@ -14,6 +14,7 @@ export default {
     <div>
         <div class="post">
             <div>
+                <div><b>id</b> {{ post.id }}</div>
                 <div><b>название</b> {{ post.title }}</div>
                 <div><b>описание</b> {{ post.body }}</div>
             </div>

@@ -23,6 +23,9 @@ export default {
             ],
 
             searchQuery: '', // поисковй запрос
+            pageCurrent: 1, // текущая страница в пагинации
+            limit: 10, // лимит постов на одной странице
+            totalPages: 0, // максимальное количество страниц
         }
     },
     methods: {
@@ -40,15 +43,34 @@ export default {
             try {
                 this.processLoadingPost = true
                 const response = await axios.get(
-                    'https://jsonplaceholder.typicode.com/posts?_limit=10'
+                    'https://jsonplaceholder.typicode.com/posts',
+                    {
+                        params: {
+                            _limit: this.limit,
+                            _page: this.pageCurrent,
+                        },
+                    }
                 )
                 console.log(response)
                 this.posts = response.data
+
+                // получаем максимальное количество страниц
+                // получаем количество постов с бека
+                // делим на лимит
+                // x-total-count - это заголовок, который мы получаем с бека
+                // в нем хранится максимальное количество постов
+                this.totalPages = Math.ceil(
+                    response.headers['x-total-count'] / this.limit
+                )
             } catch (e) {
                 console.log(e)
             } finally {
                 this.processLoadingPost = false
             }
+        },
+        changePage(pageNumber) {
+            this.pageCurrent = pageNumber
+            this.fetchPosts()
         },
     },
     mounted() {
@@ -96,5 +118,19 @@ export default {
             @remove="removePost"
             :posts="sortedAndSearchPosts"
         />
+        <div class="page__wrapper" v-if="totalPages > 1">
+            <!-- аналогично можно по условию биндить инлайн стили -->
+            <div
+                class="page__item"
+                :class="{
+                    'page--current': pageCurrent === pageNumber,
+                }"
+                v-for="pageNumber in totalPages"
+                :key="pageNumber"
+                @click="changePage(pageNumber)"
+            >
+                {{ pageNumber }}
+            </div>
+        </div>
     </div>
 </template>
