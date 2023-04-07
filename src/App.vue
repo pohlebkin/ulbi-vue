@@ -16,6 +16,11 @@ export default {
 
             // true если в процессе загрузки постов
             processLoadingPost: false,
+            selectedSort: '',
+            sortOptions: [
+                { name: 'по названию', value: 'title' },
+                { name: 'по описанию', value: 'body' },
+            ],
         }
     },
     methods: {
@@ -47,14 +52,32 @@ export default {
     mounted() {
         this.fetchPosts()
     },
+    watch: {
+        // функция, которая будет вызываться при изменении selectedSort
+        // одноименная с наблюдаемым свойством
+        // параметр newValue - новое значение
+        // параметр oldValue - старое значение
+        selectedSort(newValue) {
+            // сортируем посты
+            // post1, post2 - элементы массива postsкоторые будут сравниваться
+            // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+            this.posts.sort((post1, post2) => {
+                // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
+                return post1[newValue].localeCompare(post2[newValue])
+            })
+        },
+    },
 }
 </script>
 
 <template>
     <div class="app">
-        <MyBtn @click="showModal"
-            >добавить пост (показать модальное окно)</MyBtn
-        >
+        <div class="app__btns">
+            <MyBtn @click="showModal"
+                >добавить пост (показать модальное окно)</MyBtn
+            >
+            <MySelect v-model="selectedSort" :options="sortOptions"></MySelect>
+        </div>
         <MyModal v-model:show="modalShow">
             <PostForm @create="createPost" />
         </MyModal>
