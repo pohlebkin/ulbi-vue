@@ -54,11 +54,6 @@ export default {
                 console.log(response)
                 this.posts = response.data
 
-                // получаем максимальное количество страниц
-                // получаем количество постов с бека
-                // делим на лимит
-                // x-total-count - это заголовок, который мы получаем с бека
-                // в нем хранится максимальное количество постов
                 this.totalPages = Math.ceil(
                     response.headers['x-total-count'] / this.limit
                 )
@@ -68,13 +63,54 @@ export default {
                 this.processLoadingPost = false
             }
         },
-        changePage(pageNumber) {
-            this.pageCurrent = pageNumber
-            this.fetchPosts()
+        async loadMorePosts() {
+            try {
+                this.pageCurrent++
+                const response = await axios.get(
+                    'https://jsonplaceholder.typicode.com/posts',
+                    {
+                        params: {
+                            _limit: this.limit,
+                            _page: this.pageCurrent,
+                        },
+                    }
+                )
+                console.log(response)
+                this.totalPages = Math.ceil(
+                    response.headers['x-total-count'] / this.limit
+                )
+
+                // посты не перезаписываются, а добавляются к уже существующим
+                this.posts = [...this.posts, ...response.data]
+            } catch (e) {
+                console.log(e)
+            }
         },
     },
     mounted() {
         this.fetchPosts()
+
+        // console.log(this.$refs.observer)
+
+        const options = {
+            rootMargin: '0px',
+            threshold: 1.0,
+        }
+
+        const callback = (entries, observer) => {
+            if (
+                entries[0].isIntersecting &&
+                this.pageCurrent !== this.totalPages
+            ) {
+                this.loadMorePosts()
+            } else {
+                // console.log('посты закончились')
+            }
+        }
+
+        const observer = new IntersectionObserver(callback, options)
+
+        observer.observe(this.$refs.observer)
     },
     computed: {
         sortedPosts() {
@@ -118,19 +154,6 @@ export default {
             @remove="removePost"
             :posts="sortedAndSearchPosts"
         />
-        <div class="page__wrapper" v-if="totalPages > 1">
-            <!-- аналогично можно по условию биндить инлайн стили -->
-            <div
-                class="page__item"
-                :class="{
-                    'page--current': pageCurrent === pageNumber,
-                }"
-                v-for="pageNumber in totalPages"
-                :key="pageNumber"
-                @click="changePage(pageNumber)"
-            >
-                {{ pageNumber }}
-            </div>
-        </div>
+        <div ref="observer" class="observer"></div>
     </div>
 </template>

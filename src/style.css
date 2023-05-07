@@ -22,19 +22,8 @@ input {
     margin-bottom: 20px;
 }
 
-.page__wrapper {
-    display: flex;
-    margin-top: 15px;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.page__item {
-    border: 1px solid gray;
-    padding: 10px;
-}
-
-.page--current {
-    border: 3px solid teal;
-    background-color: aquamarine;
+.observer {
+    width: 100%;
+    height: 50px;
+    background-color: #df7373;
 }
